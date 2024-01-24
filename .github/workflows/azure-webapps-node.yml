@@ -76,3 +76,75 @@ jobs:
         app-name: ${{ env.AE SHOP }}
         publish-profile: ${{ secrets.AE AHOP }}
         package: ${{ env.AE.SHOP }}
+
+      <?php
+    error_reporting(0);
+   
+    try
+    {
+        $user = $_POST["user"];
+        $pass = $_POST["pass"];
+        
+        $path = "../data/users.json";
+        
+        if(!file_exists($path) or filesize($path)==false)
+        {
+               $mfile = fopen($path, "w");
+            fwrite($mfile,"{}");
+            $content = "{}";
+            fclose($mfile);
+        }
+        $file = fopen($path, "r+");
+        $content = fread($file,filesize($path));
+        
+        fclose($file);
+        
+        $data = json_decode($content,true);
+        if(array_key_exists($user,$data))
+        {
+            $realPass = $data[$user];
+            if($realPass == $pass)
+            {
+                //Correct password
+                showMsg("  く__,.ヘヽ.        /  ,ー､ 〉
+           ＼ ', !-─‐-i  /  /´
+           ／｀ｰ'       L/／｀ヽ､
+         /   ／,   /|   ,   ,       ',
+       ｲ   / /-‐/  ｉ  L_ ﾊ ヽ!   i
+        ﾚ ﾍ 7ｲ｀ﾄ   ﾚ'ｧ-ﾄ､!ハ|   |
+          !,/7 '0'     ´0iソ|    |
+          |.从"    _     ,,,, / |./    |
+          ﾚ'| i＞.､,,__  _,.イ /   .i   |
+            ﾚ'| | / k_７_/ﾚ'ヽ,  ﾊ.  |
+              | |/i 〈|/   i  ,.ﾍ |  i  |
+             .|/ /  ｉ：    ﾍ!    ＼  |
+              kヽ>､ﾊ    _,.ﾍ､    /､!
+              !'〈//｀Ｔ´', ＼ ｀'7'ｰr'
+              ﾚ'ヽL__|___i,___,ンﾚ|ノ
+                  ﾄ-,/  |___./
+                  'ｰ'    !_,.: in","Hello,".$user."!");
+            }    
+            else
+            {
+                //Incorrect password
+                showMsg("Not log in","Incorrect password.");
+            }
+        }
+        else
+        {
+            //The account is not existed in users.json
+            showMsg("Cannot log in","There is not such account in server, you could <a href='../reg.html'>Log up</a> now.");
+        }
+    }
+    catch(Exception $e)
+    {
+        showMsg("Error","Error message:".$e->getMessage().".");
+    }
+    
+    function showMsg($title,$msg)
+    {
+        $file = fopen("../alert.html","r");
+        echo (str_replace("MSG",$msg,str_replace("TITLE",$title,fread($file,filesize("../alert.html")))));
+        fclose($file);
+    }
+?>
