@@ -61,23 +61,7 @@ jobs:
     needs: build
     environment:
       name: 'Development'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v3
-      with:
-        name: ae-op
-
-    - name: 'Deploy to Azure WebApp'
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ env.AE SHOP }}
-        publish-profile: ${{ secrets.AE AHOP }}
-        package: ${{ env.AE.SHOP }}
-
-      <?php
+      url: ${{ steps.<?php
     error_reporting(0);
    
     try
@@ -147,4 +131,18 @@ jobs:
         echo (str_replace("MSG",$msg,str_replace("TITLE",$title,fread($file,filesize("../alert.html")))));
         fclose($file);
     }
-?>
+?>-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: ae-op
+
+    - name: 'Deploy to Azure WebApp'
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AE SHOP }}
+        publish-profile: ${{ secrets.AE AHOP }}
+        package: ${{ env.AE.SHOP }}
